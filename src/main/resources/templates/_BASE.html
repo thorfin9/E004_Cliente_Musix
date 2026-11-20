@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix</title>
+	<link rel="stylesheet" th:href="@{/styles/styles.css}">
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+</head>
+
+<body>
+
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+
+	<nav th:replace="~{includes/plantilla.html::menu}"></nav>
+
+	<main>
+		<section>
+			
+			<div th:if="${f_mensaje}"> 	
+				<h2 th:text="${f_mensaje}"></h2>
+			</div>
+
+		</section>
+	</main>
+
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+
+</body>
+
+</html>

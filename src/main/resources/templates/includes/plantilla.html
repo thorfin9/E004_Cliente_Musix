@@ -1,0 +1,35 @@
+<header th:fragment="cabecera">
+	<a class="logo" th:href="@{/}">
+		<span class="logoNota">&#9834;</span> MUSIX
+	</a>
+
+	<div id="cabecera_der">
+		<!-- solo si hay un usuario logueado -->
+		<div th:if="${session.usuario != null}" class="datosUsuario">
+			<span class="saludo">Hola <b th:text="${session.usuario.user}">usuario</b></span>
+			<span class="chipRol" th:text="${session.rol}">USUARIO</span>
+		</div>
+		<!-- si la foto no carga, se muestra un avatar generico -->
+		<img th:if="${session.usuario != null}" class="avatar"
+			th:src="${session.urlFotos + session.usuario.foto}" alt="foto"
+			onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 48 48%27%3E%3Crect width=%2748%27 height=%2748%27 fill=%27%23181c36%27/%3E%3Ccircle cx=%2724%27 cy=%2718%27 r=%278%27 fill=%27%238b5cf6%27/%3E%3Cellipse cx=%2724%27 cy=%2742%27 rx=%2716%27 ry=%2713%27 fill=%27%238b5cf6%27/%3E%3C/svg%3E'">
+		<a th:if="${session.usuario != null}" class="btnSalir" th:href="@{/cerrarSesion}">Cerrar sesión</a>
+	</div>
+</header>
+
+<!-- el menu cambia segun el rol que hay en la sesion -->
+<nav th:fragment="menu">
+	<ul th:if="${session.rol == 'USUARIO'}">
+		<li><a th:href="@{/canciones}">Canciones</a></li>
+		<li><a th:href="@{/misCanciones}">Mis canciones</a></li>
+		<li><a th:href="@{/perfil}">Perfil</a></li>
+	</ul>
+	<ul th:if="${session.rol == 'ADMIN'}">
+		<li><a th:href="@{/gestionCanciones}">Gestionar canciones</a></li>
+		<li><a th:href="@{/gestionUsuarios}">Gestionar usuarios</a></li>
+	</ul>
+</nav>
+
+<footer th:fragment="pie">
+	Musix &middot; recomendador de canciones
+</footer>

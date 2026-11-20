@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix</title>
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+</head>
+
+<body>
+
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+
+	<nav th:replace="~{includes/plantilla.html::menu}"></nav>
+
+	<main>
+		<section>
+			<h2>Hola, <span th:text="${session.usuario.user}"></span> &#128075;</h2>
+			<p>¿Qué quieres hacer hoy?</p>
+
+			<div class="tarjetas" th:if="${session.rol == 'USUARIO'}">
+				<a class="tarjeta" th:href="@{/canciones}">
+					<span class="icono">&#127925;</span>
+					<h3>Canciones</h3>
+					<p>Descubre lo que comparte la comunidad.</p>
+				</a>
+				<a class="tarjeta" th:href="@{/misCanciones}">
+					<span class="icono">&#128191;</span>
+					<h3>Mis canciones</h3>
+					<p>Añade y gestiona tus recomendaciones.</p>
+				</a>
+				<a class="tarjeta" th:href="@{/perfil}">
+					<span class="icono">&#128100;</span>
+					<h3>Perfil</h3>
+					<p>Cambia tus datos, preguntas y foto.</p>
+				</a>
+			</div>
+
+			<div class="tarjetas" th:if="${session.rol == 'ADMIN'}">
+				<a class="tarjeta" th:href="@{/gestionCanciones}">
+					<span class="icono">&#127899;</span>
+					<h3>Gestionar canciones</h3>
+					<p>Filtra, revisa reportes y elimina canciones.</p>
+				</a>
+				<a class="tarjeta" th:href="@{/gestionUsuarios}">
+					<span class="icono">&#128101;</span>
+					<h3>Gestionar usuarios</h3>
+					<p>Consulta, banea y desbanea usuarios.</p>
+				</a>
+			</div>
+		</section>
+	</main>
+
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+
+</body>
+
+</html>

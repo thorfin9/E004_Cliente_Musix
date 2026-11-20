@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix - Crear usuario</title>
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+	<script th:src="@{/js/sha256login2.js}"></script>
+	<script th:src="@{/js/validarAlta.js}"></script>
+	<script th:src="@{/js/ocultarToast.js}"></script>
+</head>
+
+<body>
+
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+
+	<main id="mainSinMenu">
+		<section id="sectionSinMenu">
+
+			<form class="formAncho" method="post" th:action="@{/guardarUsuario}" th:object="${objUsuario}"
+				enctype="multipart/form-data" onsubmit="return validarAlta()">
+
+				<article th:if="${f_mensaje}" id="cajaMensajes">
+					<h2 th:text="${f_mensaje}"></h2>
+				</article>
+
+				<h2>Crear usuario</h2>
+				<p class="subtitulo">Únete a Musix y comparte tus canciones</p>
+
+				<label for="user">Usuario:</label>
+				<input type="text" th:field="*{user}" placeholder="3-30 caracteres: letras, números, _ . -" required>
+
+				<label for="pass_sin_hash">Contraseña:</label>
+				<input type="password" id="pass_sin_hash" oninput="calcularSha256()" required>
+
+				<label for="repetir">Repetir contraseña:</label>
+				<input type="password" id="repetir" required>
+
+				<!-- la que se envia: SHA256(contraseña + pimienta) -->
+				<input type="hidden" th:field="*{pass}">
+
+				<label for="archivoFoto">Foto (opcional):</label>
+				<input type="file" id="archivoFoto" name="archivoFoto" accept="image/png,image/jpeg,image/gif,image/webp">
+
+				<!-- 3 preguntas de seguridad -->
+				<div class="bloquePregunta" th:each="i : ${#numbers.sequence(0, 2)}">
+					<label th:text="'Pregunta ' + ${i + 1} + ':'"></label>
+					<select class="selectPregunta" th:field="*{preguntas[__${i}__].preguntaFk.id}" required>
+						<option value="">-- elige una pregunta --</option>
+						<option th:each="p : ${listaPreguntas}" th:value="${p.id}" th:text="${p.texto}"></option>
+					</select>
+					<input type="text" th:field="*{preguntas[__${i}__].respuesta}" placeholder="Tu respuesta" required>
+				</div>
+
+				<input type="submit" value="Crear usuario">
+				<a th:href="@{/}">Volver al login</a>
+			</form>
+
+		</section>
+	</main>
+
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+</body>
+
+</html>

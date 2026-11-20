@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix</title>
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+	<script th:src="@{/js/sha256login2.js}"></script>
+	<script th:src="@{/js/ocultarToast.js}"></script>
+</head>
+
+<body>
+
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+
+	<main id="mainSinMenu">
+		<section id="sectionSinMenu">
+
+			<!-- onsubmit: asegura que el hash esta calculado aunque el navegador autocompletase la contraseña -->
+			<form method="post" th:action="@{/validarLogin}" th:object="${objUsuario}" onsubmit="calcularSha256()">
+
+				<h2>Bienvenido</h2>
+				<p class="subtitulo">Inicia sesión para descubrir música</p>
+
+				<article th:if="${f_mensaje}" id="cajaMensajes">
+					<h2 th:text="${f_mensaje}"></h2>
+				</article>
+
+				<input type="text" th:field="*{user}" placeholder="Usuario" required>
+				<!-- esta caja NO tiene name: la contraseña en claro nunca sale del navegador -->
+				<input type="password" id="pass_sin_hash" placeholder="Contraseña" oninput="calcularSha256()" required>
+				<!-- esta es la que se envia: SHA256(contraseña + pimienta) -->
+				<input type="hidden" th:field="*{pass}">
+				<input type="submit" value="Entrar">
+				<a th:href="@{/CrearUsuario}">¿No tienes cuenta? Crear usuario</a>
+			</form>
+
+		</section>
+	</main>
+
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+</body>
+
+</html>

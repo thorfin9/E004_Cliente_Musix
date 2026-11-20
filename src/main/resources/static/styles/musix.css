@@ -1,0 +1,439 @@
+/* ============================================================
+   MUSIX - diseño completo y autocontenido
+   (no depende de styles.css, loginStyles.css ni formularios.css)
+   ============================================================ */
+
+:root{
+    --bg:      #0b0d1c;
+    --bg2:     #12152b;
+    --card:    #181c36;
+    --borde:   #2a2f55;
+    --texto:   #eef0ff;
+    --suave:   #a3a9d1;
+    --acento:  #8b5cf6;
+    --acento2: #ec4899;
+    --aviso:   #fbbf24;
+    --radio:   14px;
+    --degradado: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--texto);
+    background:
+        radial-gradient(900px 500px at 10% -10%, rgba(139,92,246,.25), transparent 60%),
+        radial-gradient(800px 500px at 100% 0%, rgba(236,72,153,.18), transparent 55%),
+        var(--bg);
+    background-attachment: fixed;
+}
+
+a{ color: inherit; }
+
+/* ---------- CABECERA ---------- */
+header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 28px;
+    background: rgba(11,13,28,.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--borde);
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-decoration: none;
+    background: var(--degradado);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logoNota{
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 1.4rem;
+    background: var(--degradado);
+    -webkit-text-fill-color: white;
+    box-shadow: 0 4px 14px rgba(139,92,246,.5);
+}
+
+#cabecera_der{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.datosUsuario{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.3;
+    font-size: .92rem;
+}
+
+.datosUsuario b{
+    font-size: 1rem;
+}
+
+.chipRol{
+    margin-top: 2px;
+    padding: 1px 10px;
+    border-radius: 999px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: white;
+    background: var(--degradado);
+}
+
+.avatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--acento);
+    box-shadow: 0 0 0 3px rgba(139,92,246,.25);
+    background: var(--card);
+}
+
+.btnSalir{
+    padding: 8px 16px;
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--texto);
+    transition: background .2s, border-color .2s;
+}
+
+.btnSalir:hover{
+    background: var(--acento2);
+    border-color: var(--acento2);
+}
+
+/* ---------- MENU ---------- */
+nav{
+    background: var(--bg2);
+    border-bottom: 1px solid var(--borde);
+}
+
+nav ul{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 28px;
+    list-style: none;
+}
+
+nav a{
+    display: inline-block;
+    padding: 9px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .95rem;
+    text-decoration: none;
+    color: var(--suave);
+    transition: background .2s, color .2s;
+}
+
+nav a:hover{
+    color: white;
+    background: var(--degradado);
+}
+
+/* ---------- CUERPO ---------- */
+main, #mainSinMenu{
+    flex: 1;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 28px;
+}
+
+section{
+    padding: 28px;
+    background: var(--card);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+section h2{
+    margin-bottom: 8px;
+    font-size: 1.9rem;
+}
+
+section p{
+    color: var(--suave);
+}
+
+/* seccion centrada (login y alta) */
+#sectionSinMenu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* ---------- TARJETAS DEL MENU PRINCIPAL ---------- */
+.tarjetas{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.tarjeta{
+    display: block;
+    padding: 26px 22px;
+    text-decoration: none;
+    background: var(--bg2);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+
+.tarjeta:hover{
+    transform: translateY(-4px);
+    border-color: var(--acento);
+    box-shadow: 0 10px 24px rgba(139,92,246,.3);
+}
+
+.tarjeta .icono{
+    display: block;
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+}
+
+.tarjeta h3{
+    margin-bottom: 4px;
+    font-size: 1.15rem;
+}
+
+.tarjeta p{
+    font-size: .88rem;
+}
+
+/* ---------- FORMULARIOS (login y alta) ---------- */
+form{
+    width: 100%;
+    max-width: 420px;
+    padding: 34px 32px;
+    background: var(--card);
+    border: 1px solid var(--borde);
+    border-top: 4px solid transparent;
+    border-image: var(--degradado) 1;
+    border-radius: 0;
+    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+}
+
+form.formAncho{
+    max-width: 540px;
+}
+
+form h2{
+    margin-bottom: 4px;
+    text-align: center;
+    font-size: 1.7rem;
+}
+
+form .subtitulo{
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: .92rem;
+    color: var(--suave);
+}
+
+label{
+    display: block;
+    margin-top: 16px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--suave);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"],
+select{
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: var(--texto);
+    background: var(--bg2);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+/* en el login no hay label: separamos los campos */
+form > input[type="text"],
+form > input[type="password"]{
+    margin-top: 14px;
+}
+
+input::placeholder{
+    color: #6c73a3;
+}
+
+input:focus,
+select:focus{
+    outline: none;
+    border-color: var(--acento);
+    box-shadow: 0 0 0 3px rgba(139,92,246,.35);
+}
+
+select option{
+    background: var(--bg2);
+    color: var(--texto);
+}
+
+input[type="file"]{
+    padding: 9px;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button{
+    margin-right: 12px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    background: var(--degradado);
+    cursor: pointer;
+}
+
+/* cada pregunta de seguridad con su respuesta */
+.bloquePregunta{
+    margin-top: 16px;
+    padding: 4px 16px 16px;
+    background: var(--bg2);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--acento);
+    border-radius: 10px;
+}
+
+.bloquePregunta input[type="text"],
+.bloquePregunta select{
+    background: var(--card);
+}
+
+/* boton principal */
+input[type="submit"]{
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 13px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: white;
+    background: var(--degradado);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(139,92,246,.45);
+    transition: transform .15s, box-shadow .15s, filter .15s;
+}
+
+input[type="submit"]:hover{
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 10px 24px rgba(236,72,153,.4);
+}
+
+input[type="submit"]:active{
+    transform: scale(.98);
+}
+
+/* enlaces bajo el boton */
+form a{
+    display: block;
+    margin-top: 16px;
+    text-align: center;
+    font-size: .92rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--acento);
+}
+
+form a:hover{
+    color: var(--acento2);
+    text-decoration: underline;
+}
+
+/* ---------- MENSAJES ---------- */
+#cajaMensajes{
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    background: rgba(251,191,36,.1);
+    border: 1px solid rgba(251,191,36,.4);
+    border-left: 4px solid var(--aviso);
+    border-radius: 10px;
+}
+
+#cajaMensajes h2{
+    margin: 0;
+    font-size: .92rem;
+    font-weight: 600;
+    text-align: left;
+    color: var(--aviso);
+}
+
+/* ---------- PIE ---------- */
+footer{
+    padding: 18px;
+    text-align: center;
+    font-size: .85rem;
+    color: var(--suave);
+    border-top: 1px solid var(--borde);
+    background: var(--bg2);
+}
+
+/* ---------- MOVIL ---------- */
+@media (max-width: 700px){
+    header{
+        padding: 10px 14px;
+    }
+    .datosUsuario span.saludo{
+        display: none;
+    }
+    nav ul, main, #mainSinMenu{
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+    form{
+        padding: 24px 20px;
+    }
+}
