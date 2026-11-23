@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix - Canciones</title>
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+</head>
+<body>
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+	<nav th:replace="~{includes/plantilla.html::menu}"></nav>
+	<main>
+		<section>
+			<h2>Canciones</h2>
+			<article th:if="${f_mensaje}" id="cajaMensajes"><h2 th:text="${f_mensaje}"></h2></article>
+			<p th:if="${#arrays.isEmpty(canciones)}">Todavía no hay canciones.</p>
+
+			<div class="listaCanciones">
+				<article class="cancion" th:each="c : ${canciones}">
+					<img class="avatar" th:src="${session.urlFotos + c.usuarioFk.foto}" th:alt="${c.usuarioFk.user}">
+					<div>
+						<h3 th:text="${c.titulo}"></h3>
+						<p><b>Subida por:</b> <span th:text="${c.usuarioFk.user}"></span></p>
+						<p th:text="${c.descripcion}"></p>
+						<p><b>Estilo:</b> <span th:text="${c.estiloFk.nombre}"></span> &middot;
+						   <b>Duración:</b> <span th:text="${c.duracion / 60} + ':' + ${#numbers.formatInteger(c.duracion % 60, 2)}"></span></p>
+						<a class="btnCancion" th:href="${c.enlace}" target="_blank" rel="noopener">&#9654; Abrir en YouTube</a>
+						<a class="btnCancion" th:href="@{/reportarCancion/{id}(id=${c.id})}"
+						   onclick="return confirm('¿Reportar esta canción?')">Reportar</a>
+					</div>
+				</article>
+			</div>
+		</section>
+	</main>
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+</body>
+</html>

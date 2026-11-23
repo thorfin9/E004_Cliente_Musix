@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix - Gestionar usuarios</title>
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+</head>
+<body>
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+	<nav th:replace="~{includes/plantilla.html::menu}"></nav>
+	<main>
+		<section>
+			<h2>Gestionar usuarios</h2>
+			<article th:if="${f_mensaje}" id="cajaMensajes"><h2 th:text="${f_mensaje}"></h2></article>
+
+			<table class="tabla">
+				<tr><th>Usuario</th><th>Rol</th><th></th></tr>
+				<tr th:each="u : ${usuarios}">
+					<td>
+						<img class="avatar" th:src="${session.urlFotos + u.foto}" alt="">
+						<span th:text="${u.user}"></span>
+					</td>
+					<td th:text="${u.rolFk.nombre}"></td>
+					<td>
+						<a class="btnCancion" th:if="${u.rolFk.nombre == 'USUARIO' or u.rolFk.nombre == 'BLOQUEADO'}"
+						   th:href="@{/banearUsuario/{id}(id=${u.id})}"
+						   onclick="return confirm('¿Banear a este usuario?')">Banear</a>
+						<a class="btnCancion" th:if="${u.rolFk.nombre == 'BANEADO'}"
+						   th:href="@{/desbanearUsuario/{id}(id=${u.id})}">Desbanear</a>
+					</td>
+				</tr>
+			</table>
+		</section>
+	</main>
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+</body>
+</html>

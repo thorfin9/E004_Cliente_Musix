@@ -16,4 +16,7 @@ public interface UsuarioServicio {
 
 	public ResponseEntity<?> validarUsuario(Usuario usu);
 	public ResponseEntity<?> subirFoto(String token, Integer id, MultipartFile foto);
+	
+	public ResponseEntity<?> banear(String token, Integer id);
+	public ResponseEntity<?> desbanear(String token, Integer id);
 }

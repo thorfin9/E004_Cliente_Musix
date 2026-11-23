@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Musix - Gestionar canciones</title>
+	<link rel="stylesheet" th:href="@{/styles/musix.css}">
+</head>
+<body>
+	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
+	<nav th:replace="~{includes/plantilla.html::menu}"></nav>
+	<main>
+		<section>
+			<h2>Gestionar canciones</h2>
+			<article th:if="${f_mensaje}" id="cajaMensajes"><h2 th:text="${f_mensaje}"></h2></article>
+
+			<form class="formAncho" method="get" th:action="@{/gestionCanciones}">
+				<label>Usuario:</label>
+				<select name="usuario">
+					<option value="">Todos</option>
+					<option th:each="u : ${listaUsuarios}" th:value="${u.id}" th:text="${u.user}"
+						th:selected="${fUsuario != null and fUsuario == u.id}"></option>
+				</select>
+
+				<label>Estilo:</label>
+				<select name="estilo">
+					<option value="">Todos</option>
+					<option th:each="e : ${listaEstilos}" th:value="${e.id}" th:text="${e.nombre}"
+						th:selected="${fEstilo != null and fEstilo == e.id}"></option>
+				</select>
+
+				<label>Duración mínima (seg):</label>
+				<input type="number" name="duracionMin" min="0" th:value="${fMin}">
+				<label>Duración máxima (seg):</label>
+				<input type="number" name="duracionMax" min="0" th:value="${fMax}">
+
+				<label><input type="checkbox" name="reportada" value="true"
+					th:checked="${fReportada != null and fReportada}"> Solo reportadas</label>
+
+				<input type="submit" value="Filtrar">
+				<a th:href="@{/gestionCanciones}">Quitar filtros</a>
+			</form>
+
+			<p th:if="${#arrays.isEmpty(canciones)}">No hay canciones con esos filtros.</p>
+			<table class="tabla" th:unless="${#arrays.isEmpty(canciones)}">
+				<tr><th>Usuario</th><th>Canción</th><th>Estilo</th><th>Duración</th><th>Reportada</th><th></th></tr>
+				<tr th:each="c : ${canciones}">
+					<td>
+						<img class="avatar" th:src="${session.urlFotos + c.usuarioFk.foto}" alt="">
+						<span th:text="${c.usuarioFk.user}"></span>
+						<span class="etiquetaBan" th:if="${c.usuarioFk.rolFk.nombre == 'BANEADO'}">BANEADO</span>
+					</td>
+					<td><a th:href="${c.enlace}" target="_blank" rel="noopener" th:text="${c.titulo}"></a></td>
+					<td th:text="${c.estiloFk.nombre}"></td>
+					<td th:text="${c.duracion / 60} + ':' + ${#numbers.formatInteger(c.duracion % 60, 2)}"></td>
+					<td th:text="${c.reportada} ? 'Sí' : 'No'"></td>
+					<td>
+						<a class="btnCancion" th:href="@{/borrarCancionAdmin/{id}(id=${c.id})}"
+						   onclick="return confirm('¿Borrar la canción?')">Borrar canción</a>
+						<a class="btnCancion"
+						   th:if="${c.usuarioFk.rolFk.nombre == 'USUARIO' or c.usuarioFk.rolFk.nombre == 'BLOQUEADO'}"
+						   th:href="@{/banearUsuario/{id}(id=${c.usuarioFk.id},volver='gestionCanciones')}"
+						   onclick="return confirm('¿Banear a este usuario?')">Banear usuario</a>
+					</td>
+				</tr>
+			</table>
+		</section>
+	</main>
+	<footer th:replace="~{includes/plantilla.html::pie}"></footer>
+</body>
+</html>

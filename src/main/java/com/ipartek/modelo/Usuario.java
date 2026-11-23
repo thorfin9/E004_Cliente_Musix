@@ -20,4 +20,5 @@ public class Usuario {
 	private Rol rolFk;
 	private List<UsuarioPregunta> preguntas = new ArrayList<>();
 
+	
 }

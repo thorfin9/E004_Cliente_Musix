@@ -136,5 +136,23 @@ public class UsuarioServicioImp implements UsuarioServicio {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+	
+	@Override
+	public ResponseEntity<?> banear(String token, Integer id) {
+		return restClient.put()
+				.uri(URL + id + "/banear")
+				.header("Authorization", "Bearer " + token)
+				.retrieve()
+				.toEntity(Usuario.class);
+	}
+
+	@Override
+	public ResponseEntity<?> desbanear(String token, Integer id) {
+		return restClient.put()
+				.uri(URL + id + "/desbanear")
+				.header("Authorization", "Bearer " + token)
+				.retrieve()
+				.toEntity(Usuario.class);
+	}
 
 }
