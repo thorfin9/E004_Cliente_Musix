@@ -154,5 +154,23 @@ public class UsuarioServicioImp implements UsuarioServicio {
 				.retrieve()
 				.toEntity(Usuario.class);
 	}
+	
+	@Override
+	public ResponseEntity<?> bloquear(String token, Integer id) {
+		return restClient.put()
+				.uri(URL + id + "/bloquear")
+				.header("Authorization", "Bearer " + token)
+				.retrieve()
+				.toEntity(Usuario.class);
+	}
+
+	@Override
+	public ResponseEntity<?> desbloquear(String token, Integer id) {
+		return restClient.put()
+				.uri(URL + id + "/desbloquear")
+				.header("Authorization", "Bearer " + token)
+				.retrieve()
+				.toEntity(Usuario.class);
+	}
 
 }

@@ -19,4 +19,7 @@ public interface UsuarioServicio {
 	
 	public ResponseEntity<?> banear(String token, Integer id);
 	public ResponseEntity<?> desbanear(String token, Integer id);
+	
+	public ResponseEntity<?> bloquear(String token, Integer id);
+	public ResponseEntity<?> desbloquear(String token, Integer id);
 }

@@ -16,7 +16,9 @@
 
 	<main>
 		<section>
-			<h2>Hola, <span th:text="${session.usuario.user}"></span> &#128075;</h2>
+			<span th:if="${session.usuario != null}">
+			    Hola, <span th:text="${session.usuario.user}"></span>
+			</span>
 			<p>¿Qué quieres hacer hoy?</p>
 
 			<div class="tarjetas" th:if="${session.rol == 'USUARIO'}">

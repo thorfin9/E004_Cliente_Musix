@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,19 +41,40 @@ public class CancionControlador {
 
 	// ---------- CANCIONES (todas, sin las de usuarios baneados)
 	@GetMapping("/canciones")
-	public String canciones(Model model, HttpSession session) {
-		if (!esUsuario(session)) {
-			return "redirect:/";
-		}
-		String token = (String) session.getAttribute("token");
-		try {
-			model.addAttribute("canciones",
-					lista(cancionServ.buscar(token, null, null, null, null, null, null, null, false)));
-		} catch (Exception e) {
-			model.addAttribute("canciones", new Cancion[0]);
-			model.addAttribute("f_mensaje", "No se han podido cargar las canciones.");
-		}
-		return "canciones";
+	public String canciones(@RequestParam(defaultValue = "0") int page, Model model, HttpSession session) {
+	    if (!esUsuario(session)) {
+	        return "redirect:/";
+	    }
+	    String token = (String) session.getAttribute("token");
+	    try {
+	        Cancion[] todas = lista(cancionServ.buscar(token, null, null, null, null, null, null, null, false));
+
+	        int pageSize = 5; // Configurable
+	        int totalItems = todas.length;
+	        int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+
+	        // Validate page bounds
+	        if (page < 0) page = 0;
+	        if (page >= totalPages && totalPages > 0) page = totalPages - 1;
+
+	        int start = page * pageSize;
+	        int end = Math.min(start + pageSize, totalItems);
+
+	        Cancion[] paginaCanciones = new Cancion[0];
+	        if (totalItems > 0 && start < totalItems) {
+	            paginaCanciones = java.util.Arrays.copyOfRange(todas, start, end);
+	        }
+
+	        model.addAttribute("canciones", paginaCanciones); // Keep name 'canciones' for the view to avoid breaking things, but it now holds the page.
+	        model.addAttribute("currentPage", page);
+	        model.addAttribute("totalPages", totalPages);
+	        model.addAttribute("totalItems", totalItems);
+
+	    } catch (Exception e) {
+	        model.addAttribute("canciones", new Cancion[0]);
+	        model.addAttribute("f_mensaje", "No se han podido cargar las canciones.");
+	    }
+	    return "canciones";
 	}
 
 	@GetMapping("/reportarCancion/{id}")

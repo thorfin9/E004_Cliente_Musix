@@ -23,9 +23,21 @@
 					</td>
 					<td th:text="${u.rolFk.nombre}"></td>
 					<td>
+						<!-- USUARIO: puede bloquearse o banearse -->
+						<a class="btnCancion" th:if="${u.rolFk.nombre == 'USUARIO'}"
+						   th:href="@{/bloquearUsuario/{id}(id=${u.id})}"
+						   onclick="return confirm('¿Bloquear a este usuario?')">Bloquear</a>
+
+						<!-- BLOQUEADO: puede desbloquearse -->
+						<a class="btnCancion" th:if="${u.rolFk.nombre == 'BLOQUEADO'}"
+						   th:href="@{/desbloquearUsuario/{id}(id=${u.id})}">Desbloquear</a>
+
+						<!-- USUARIO o BLOQUEADO: se puede banear -->
 						<a class="btnCancion" th:if="${u.rolFk.nombre == 'USUARIO' or u.rolFk.nombre == 'BLOQUEADO'}"
 						   th:href="@{/banearUsuario/{id}(id=${u.id})}"
 						   onclick="return confirm('¿Banear a este usuario?')">Banear</a>
+
+						<!-- BANEADO: se puede desbanear -->
 						<a class="btnCancion" th:if="${u.rolFk.nombre == 'BANEADO'}"
 						   th:href="@{/desbanearUsuario/{id}(id=${u.id})}">Desbanear</a>
 					</td>

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rol {
+public class Rol implements java.io.Serializable{
 	private Integer id;
 	private String nombre;
 

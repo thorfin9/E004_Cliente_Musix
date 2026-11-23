@@ -111,6 +111,9 @@ public class AdminControlador {
 			return "redirect:/";
 		}
 		Usuario yo = (Usuario) session.getAttribute("usuario");
+		if (yo == null) {
+			return "redirect:/";
+		}
 		if (yo.getId().equals(id)) {
 			redirect.addFlashAttribute("f_mensaje", "No puedes banearte a ti mismo.");
 			return destino(volver);
@@ -134,6 +137,42 @@ public class AdminControlador {
 			redirect.addFlashAttribute("f_mensaje", "Usuario desbaneado.");
 		} catch (Exception e) {
 			redirect.addFlashAttribute("f_mensaje", "No se ha podido desbanear al usuario.");
+		}
+		return "redirect:/gestionUsuarios";
+	}
+	
+	@GetMapping("/bloquearUsuario/{id}")
+	public String bloquear(@PathVariable Integer id, HttpSession session, RedirectAttributes redirect) {
+		if (!esAdmin(session)) {
+			return "redirect:/";
+		}
+		Usuario yo = (Usuario) session.getAttribute("usuario");
+		if (yo == null) {
+			return "redirect:/";
+		}
+		if (yo.getId().equals(id)) {
+			redirect.addFlashAttribute("f_mensaje", "No puedes bloquearte a ti mismo.");
+			return "redirect:/gestionUsuarios";
+		}
+		try {
+			usuarioServ.bloquear((String) session.getAttribute("token"), id);
+			redirect.addFlashAttribute("f_mensaje", "Usuario bloqueado.");
+		} catch (Exception e) {
+			redirect.addFlashAttribute("f_mensaje", "No se ha podido bloquear al usuario.");
+		}
+		return "redirect:/gestionUsuarios";
+	}
+
+	@GetMapping("/desbloquearUsuario/{id}")
+	public String desbloquear(@PathVariable Integer id, HttpSession session, RedirectAttributes redirect) {
+		if (!esAdmin(session)) {
+			return "redirect:/";
+		}
+		try {
+			usuarioServ.desbloquear((String) session.getAttribute("token"), id);
+			redirect.addFlashAttribute("f_mensaje", "Usuario desbloqueado.");
+		} catch (Exception e) {
+			redirect.addFlashAttribute("f_mensaje", "No se ha podido desbloquear al usuario.");
 		}
 		return "redirect:/gestionUsuarios";
 	}

@@ -10,11 +10,13 @@
 	<header th:replace="~{includes/plantilla.html::cabecera}"></header>
 	<nav th:replace="~{includes/plantilla.html::menu}"></nav>
 	<main>
-		<section>
+		<!-- Añadimos id="top" para que el navegador sepa a dónde subir -->
+		<section id="top">
 			<h2>Canciones</h2>
 			<article th:if="${f_mensaje}" id="cajaMensajes"><h2 th:text="${f_mensaje}"></h2></article>
 			<p th:if="${#arrays.isEmpty(canciones)}">Todavía no hay canciones.</p>
 
+			<!-- LISTA DE CANCIONES -->
 			<div class="listaCanciones">
 				<article class="cancion" th:each="c : ${canciones}">
 					<img class="avatar" th:src="${session.urlFotos + c.usuarioFk.foto}" th:alt="${c.usuarioFk.user}">
@@ -30,6 +32,40 @@
 					</div>
 				</article>
 			</div>
+
+			
+			<div class="paginacion" th:if="${totalPages > 1}">
+				
+				<!-- Botón Anterior (Usando _fragment='top' para que suba) -->
+				<a th:if="${currentPage > 0}" th:href="@{/canciones(page=${currentPage - 1}, _fragment='top')}" class="btnPagina">&laquo; Anterior</a>
+				<span th:unless="${currentPage > 0}" class="btnPagina deshabilitado">&laquo; Anterior</span>
+
+				<!-- Lógica para mostrar solo 5 páginas -->
+				<th:block th:with="
+					startPage=${currentPage - 2 < 0 ? 0 : (currentPage + 3 > totalPages ? (totalPages - 5 < 0 ? 0 : totalPages - 5) : currentPage - 2)},
+					endPage=${startPage + 5 > totalPages ? totalPages : startPage + 5}
+				">
+					<!-- Mostramos el primer número si estamos lejos del inicio -->
+					<a th:if="${startPage > 0}" th:href="@{/canciones(page=0, _fragment='top')}" th:text="1" class="btnPagina"></a>
+					<span th:if="${startPage > 1}" class="btnPagina deshabilitado">...</span>
+
+					<!-- Números de la página central -->
+					<span th:each="i : ${#numbers.sequence(startPage, endPage - 1)}">
+						<a th:if="${i != currentPage}" th:href="@{/canciones(page=${i}, _fragment='top')}" th:text="${i + 1}" class="btnPagina"></a>
+						<span th:if="${i == currentPage}" th:text="${i + 1}" class="btnPagina activo"></span>
+					</span>
+
+					<!-- Mostramos el último número si estamos lejos del final -->
+					<span th:if="${endPage < totalPages - 1}" class="btnPagina deshabilitado">...</span>
+					<a th:if="${endPage < totalPages}" th:href="@{/canciones(page=${totalPages - 1}, _fragment='top')}" th:text="${totalPages}" class="btnPagina"></a>
+				</th:block>
+
+				<!-- Botón Siguiente -->
+				<a th:if="${currentPage < totalPages - 1}" th:href="@{/canciones(page=${currentPage + 1}, _fragment='top')}" class="btnPagina">Siguiente &raquo;</a>
+				<span th:unless="${currentPage < totalPages - 1}" class="btnPagina deshabilitado">Siguiente &raquo;</span>
+
+			</div>
+
 		</section>
 	</main>
 	<footer th:replace="~{includes/plantilla.html::pie}"></footer>

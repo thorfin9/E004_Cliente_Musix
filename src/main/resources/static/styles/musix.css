@@ -494,3 +494,54 @@ table.tabla td {
 	color: #f87171;
 	font-weight: bold;
 }
+
+
+
+/* ============================================================
+   PAGINACIÓN
+   ============================================================ */
+.paginacion {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	margin-top: 30px;
+	padding-top: 20px;
+	border-top: 1px solid var(--borde);
+}
+
+.btnPagina {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 12px;
+	border-radius: 8px;
+	background: var(--bg2);
+	border: 1px solid var(--borde);
+	color: var(--texto);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 0.9rem;
+	transition: all 0.2s;
+}
+
+.btnPagina:hover:not(.deshabilitado):not(.activo) {
+	background: var(--acento);
+	border-color: var(--acento);
+	transform: translateY(-1px);
+}
+
+.btnPagina.activo {
+	background: var(--degradado);
+	border-color: transparent;
+	color: white;
+	cursor: default;
+}
+
+.btnPagina.deshabilitado {
+	opacity: 0.5;
+	cursor: not-allowed;
+	background: transparent;
+}

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Usuario {
+public class Usuario implements java.io.Serializable{
 	private Integer id;
 	private String user;
 	private String pass;
